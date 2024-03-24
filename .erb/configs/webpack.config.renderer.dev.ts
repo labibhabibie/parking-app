@@ -78,10 +78,15 @@ const configuration: webpack.Configuration = {
         ],
         include: /\.module\.s?(c|a)ss$/,
       },
+      // {
+      //   test: /\.s?css$/,
+      //   use: ['style-loader', 'css-loader', 'sass-loader'],
+      //   exclude: /\.module\.s?(c|a)ss$/,
+      // },
       {
-        test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-        exclude: /\.module\.s?(c|a)ss$/,
+        test: /\.css$/,
+        include: [webpackPaths.srcRendererPath],
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       // Fonts
       {
@@ -150,7 +155,7 @@ const configuration: webpack.Configuration = {
     new ReactRefreshWebpackPlugin(),
 
     new HtmlWebpackPlugin({
-      filename: path.join('index.html'),
+      filename: path.join('index.html') /* index.html */,
       template: path.join(webpackPaths.srcRendererPath, 'index.ejs'),
       minify: {
         collapseWhitespace: true,
