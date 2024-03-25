@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeftIcon } from '@heroicons/react/20/solid';
+import { ArrowLeftIcon, PrinterIcon } from '@heroicons/react/20/solid';
 
 import { format } from 'date-fns';
-
 
 const TransactionDetail = () => {
   const param = useParams();
@@ -17,13 +16,12 @@ const TransactionDetail = () => {
     checkInDatetime: string;
     productName: string;
     trxInvoiceItem: {
-      docNo:string;
+      docNo: string;
       productName: string;
       overnightTime: string;
       qty: number;
       price: number;
       amount: number;
-
     }[];
   }
 
@@ -75,11 +73,22 @@ const TransactionDetail = () => {
                 type="button"
                 className="inline-flex items-center rounded-md bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-200 hover:bg-gray-50"
               >
+                <PrinterIcon
+                  className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+                Print
+              </button>
+            </Link>
+            <Link to={'/transaction'}>
+              <button
+                type="button"
+                className="inline-flex items-center rounded-md bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-200 hover:bg-gray-50"
+              >
                 <ArrowLeftIcon
                   className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
                   aria-hidden="true"
                 />
-                {/* {currentDate} */}
                 Back
               </button>
             </Link>
@@ -90,7 +99,10 @@ const TransactionDetail = () => {
         {detailData &&
           Array.isArray(detailData) &&
           detailData.map((detail, index) => (
-            <div key={index} className="flex flex-col space-y-3 mx-3">
+            <div
+              key={detail._id}
+              className="flex flex-col space-y-3 mx-3 bg-white rounded-lg py-5"
+            >
               <div className="px-3 ">
                 <h3
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1"
@@ -116,7 +128,7 @@ const TransactionDetail = () => {
                 </h3>
               </div>
               {detail.trxInvoiceItem.map((item, itemIndex) => (
-                <div key={itemIndex} className='flex flex-col space-y-3'>
+                <div key={itemIndex} className="flex flex-col space-y-3">
                   <div className="px-3 ">
                     <h3
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1"
@@ -138,7 +150,8 @@ const TransactionDetail = () => {
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1"
                       id="grid-first-name"
                     >
-                      Menginap &ensp;&emsp;&emsp;&emsp;&emsp;&emsp;: {item.overnightTime == ''? 'Ya': 'Tidak'}
+                      Menginap &ensp;&emsp;&emsp;&emsp;&emsp;&emsp;:{' '}
+                      {item.overnightTime == '' ? 'Ya' : 'Tidak'}
                     </h3>
                   </div>
                 </div>
@@ -146,7 +159,6 @@ const TransactionDetail = () => {
             </div>
           ))}
       </form>
-
     </div>
   );
 };

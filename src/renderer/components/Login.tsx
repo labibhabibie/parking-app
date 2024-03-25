@@ -29,8 +29,7 @@ const Login = () => {
         // console.log('Token:', token);
         setToken(token);
         setLoggedIn(true);
-
-        // Lakukan sesuatu dengan token, misalnya menyimpannya di state atau localStorage
+        localStorage.setItem('token', token);
         toast.success('Login berhasil!');
         setTimeout(() => {
           navigate('/form', { replace: true });

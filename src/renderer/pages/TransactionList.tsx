@@ -94,7 +94,7 @@ const TransactionList = () => {
         </div>
         <div className="items-center">
           <span className="block">
-            <button
+            {/* <button
               type="button"
               // onClick={handleClick}
               className="inline-flex items-center rounded-md bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-200 hover:bg-gray-50"
@@ -105,7 +105,7 @@ const TransactionList = () => {
               />
               {currentDate}
               Refresh
-            </button>
+            </button> */}
           </span>
         </div>
       </div>

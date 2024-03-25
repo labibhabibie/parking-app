@@ -71,9 +71,9 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1600,
+    width: 1280,
     height: 720,
-    icon: getAssetPath('icon.png'),
+    icon: getAssetPath('logo.png'),
     webPreferences: {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
@@ -81,7 +81,11 @@ const createWindow = async () => {
     },
   });
 
-  mainWindow.loadURL(resolveHtmlPath('/'));
+  mainWindow.loadURL(resolveHtmlPath('index.html'));
+  // mainWindow.loadURL('file://' + path.join(__dirname, '../index.html#/home'));
+  // mainWindow.loadFile(
+  //   path.resolve(path.join(__dirname, '../renderer/index.html')),
+  // );
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {

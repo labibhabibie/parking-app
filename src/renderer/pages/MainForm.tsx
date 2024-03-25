@@ -113,7 +113,7 @@ const MainForm = () => {
                 name="id"
                 type="text"
                 required
-                placeholder="Jane"
+                placeholder="ID"
                 value={formData.id}
                 onChange={handleInputChange}
                 readOnly // ID tidak dapat diubah oleh pengguna
@@ -132,7 +132,7 @@ const MainForm = () => {
                 name="nama"
                 type="text"
                 required
-                placeholder="Jane"
+                placeholder="NAMA"
                 value={formData.nama}
                 onChange={handleInputChange}
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded px-4 leading-tight focus:outline-none focus:bg-white"
@@ -150,7 +150,7 @@ const MainForm = () => {
                 name="organisasi"
                 type="text"
                 required
-                placeholder="Jane"
+                placeholder="Organisasi/Instansi"
                 value={formData.organisasi}
                 onChange={handleInputChange}
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded px-4 leading-tight focus:outline-none focus:bg-white"
@@ -228,7 +228,7 @@ const MainForm = () => {
                 name="uidKartu"
                 type="text"
                 required
-                placeholder="Jane"
+                placeholder="9471094567290457"
                 value={formData.uidKartu}
                 onChange={handleInputChange}
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded px-4 leading-tight focus:outline-none focus:bg-white"

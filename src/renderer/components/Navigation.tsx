@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
@@ -7,7 +7,7 @@ import {
   ArrowLeftEndOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 import Logo from '../../../assets/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
 
 const path = window.location.pathname;
 // const location = useLocation();
@@ -15,11 +15,11 @@ const path = window.location.pathname;
 // console.log(key);
 const navigation = [
   { name: 'Home', href: '/', current: path == '/' ? true : false },
-  {
-    name: 'Dashboard',
-    href: '/dashboard',
-    current: path == '/dashboard' ? true : false,
-  },
+  // {
+  //   name: 'Dashboard',
+  //   href: '/dashboard',
+  //   current: path == '/dashboard' ? true : false,
+  // },
   {
     name: 'Form Registrasi',
     href: '/form',
@@ -30,7 +30,7 @@ const navigation = [
     href: '/transaction',
     current: path == '/transaction' ? true : false,
   },
-  { name: path, href: '#', current: false },
+  // { name: path, href: '#', current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -38,6 +38,15 @@ function classNames(...classes: string[]) {
 }
 
 export default function Example() {
+  const navigate = useNavigate();
+  const handleClick = async () => {
+    // const [token, setToken] = useState('');
+    // localStorage.setItem('token', '');
+    localStorage.removeItem('token');
+    <Navigate to="/" />;
+    navigate('/');
+    redirect('/');
+  };
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -63,25 +72,38 @@ export default function Example() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-900 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium',
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
+                      <Link to={item.href} key={item.name}>
+                        <button
+                          type="button"
+                          className={classNames(
+                            // item.current
+                            // ? 'bg-gray-900 text-white':
+                            'text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium',
+                          )}
+                        >
+                          {item.name}
+                        </button>
+                      </Link>
+                      // <a
+                      //   key={item.name}
+                      //   href={item.href}
+                      //   className={classNames(
+                      //     item.current
+                      //       ? 'bg-gray-900 text-white'
+                      //       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      //     'rounded-md px-3 py-2 text-sm font-medium',
+                      //   )}
+                      //   aria-current={item.current ? 'page' : undefined}
+                      // >
+                      //   {item.name}
+                      //   {item.href}
+                      // </a>
                     ))}
                   </div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a href={'/'}>
+                <Link onClick={handleClick} to={''}>
                   <button
                     type="button"
                     className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -93,7 +115,7 @@ export default function Example() {
                       aria-hidden="true"
                     />
                   </button>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -105,6 +127,7 @@ export default function Example() {
                   key={item.name}
                   as="a"
                   href={item.href}
+                  onClick={handleClick}
                   className={classNames(
                     item.current
                       ? 'bg-gray-900 text-white'
