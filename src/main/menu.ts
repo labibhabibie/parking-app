@@ -6,6 +6,7 @@ import {
   MenuItemConstructorOptions,
 } from 'electron';
 
+const { createSettingsWindow } = require('./settingWindow');
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   selector?: string;
   submenu?: DarwinMenuItemConstructorOptions[] | Menu;
@@ -253,6 +254,18 @@ export default class MenuBuilder {
               ],
       },
       {
+        label: '&Settings',
+        submenu: [
+          {
+            label: '&Card Reader Connection',
+            accelerator: 'Ctrl+,',
+            click: () => {
+              createSettingsWindow();
+            },
+          },
+        ],
+      },
+      {
         label: 'Help',
         submenu: [
           {
@@ -284,6 +297,8 @@ export default class MenuBuilder {
         ],
       },
     ];
+    const menu = Menu.buildFromTemplate(templateDefault);
+    Menu.setApplicationMenu(menu);
 
     return templateDefault;
   }

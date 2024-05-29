@@ -22,6 +22,6 @@ const Home = () => {
     </>
   );
 };
-console.error('ada ga?', localStorage.getItem('token'));
+// console.log('Ini token:', localStorage.getItem('token'));
 
 export default Home;

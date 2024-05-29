@@ -17,6 +17,7 @@ import TransactionDetail from './pages/TransactionDetail';
 import CustomerList from './pages/CustomerList';
 import ProtectedRoute from './ProtectedRoute';
 import { Switch } from '@headlessui/react';
+import CardReader from './pages/CardReader';
 // import PrintPage from './components/PrintPage';
 // import PrinterConfig from './components/PrinterConfig';
 
@@ -63,6 +64,14 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <CustomerList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cardReader"
+              element={
+                <ProtectedRoute>
+                  <CardReader />
                 </ProtectedRoute>
               }
             />

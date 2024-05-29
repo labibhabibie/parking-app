@@ -19,6 +19,41 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const MainForm = () => {
+  //CARD READER
+  const [output, setOutput] = useState('');
+  const [ports, setPorts] = useState([]);
+  const [selectedPort, setSelectedPort] = useState('');
+
+  const onDataReceived = (data: any) => {
+    setOutput((prev) => `${prev}\n${data}`);
+    setFormData((prevData) => ({
+      ...prevData,
+      uidKartu: data,
+    }));
+    console.log('ini data response: ' + data);
+  };
+
+  useEffect(() => {
+    window.electron.onData(onDataReceived);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.electron.removeDataListener(onDataReceived);
+    };
+  }, []);
+
+  const handleScanUID = async (e: any) => {
+    const port = 'COM5';
+    const baudRate = 38400;
+    const config = { port, baudRate };
+    const responsePort = await window.electron.openPort(config);
+    const responseCommand = window.electron.sendCommand(e);
+    // const response = await window.electron.getUID();
+    // if (response) {
+    //   console.log('ini response getUID: ' + response);
+    // }
+  };
+
   const [formData, setFormData] = useState({
     id: '',
     nama: '',
@@ -49,7 +84,7 @@ const MainForm = () => {
     }
   }, []); // Efek hanya dijalankan sekali saat komponen dimuat
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -57,7 +92,7 @@ const MainForm = () => {
     }));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: any) => {
     e.preventDefault();
     // Simpan data ke localStorage
     const existingData = JSON.parse(localStorage.getItem('customerData')) || [];
@@ -199,15 +234,15 @@ const MainForm = () => {
                 htmlFor="id"
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1"
               >
-                Organisasi/Instansi
+                Jenis Kendaraan
               </label>
               <div className="relative">
                 <select
-                  id="organisasi"
-                  name="organisasi"
+                  id="jenisKendaraan"
+                  name="jenisKendaraan"
                   required
-                  placeholder="Jane"
-                  value={formData.organisasi}
+                  // placeholder="Jane"
+                  value={formData.jenisKendaraan}
                   onChange={handleInputChange}
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded px-4 leading-tight focus:outline-none focus:bg-white"
                 >
@@ -223,32 +258,47 @@ const MainForm = () => {
               >
                 UID Kartu
               </label>
-              <input
-                id="uidKartu"
-                name="uidKartu"
-                type="text"
-                required
-                placeholder="9471094567290457"
-                value={formData.uidKartu}
-                onChange={handleInputChange}
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded px-4 leading-tight focus:outline-none focus:bg-white"
-              />
+              <div className="flex flex-row space-x-4">
+                <input
+                  id="uidKartu"
+                  name="uidKartu"
+                  type="text"
+                  required
+                  placeholder="9471094567290457"
+                  value={formData.uidKartu}
+                  onChange={handleInputChange}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded px-4 leading-tight focus:outline-none focus:bg-white"
+                />
+                <button
+                  className="text-gray-800 text-sm text-nowrap"
+                  onClick={() =>
+                    handleScanUID([
+                      0x10, 0x02, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00,
+                      0x00, 0x01, 0x75, 0x7d, 0x10, 0x03,
+                    ])
+                  }
+                >
+                  Scan Card
+                </button>
+              </div>
             </div>
             {/* Tambahkan input lainnya sesuai kebutuhan */}
           </div>
-          <div className="mt-6 flex items-center justify-end gap-x-6">
-            <button
-              type="button"
-              className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Save
-            </button>
+          <div className="mt-6 flex items-center justify-end gap-x-6 mx-3">
+            <div className="px-3">
+              <button
+                type="button"
+                className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Save
+              </button>
+            </div>
           </div>
         </form>
       </div>

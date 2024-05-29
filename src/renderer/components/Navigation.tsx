@@ -30,6 +30,11 @@ const navigation = [
     href: '/transaction',
     current: path == '/transaction' ? true : false,
   },
+  {
+    name: 'Card Reader',
+    href: '/cardReader',
+    current: path == '/cardReader' ? true : false,
+  },
   // { name: path, href: '#', current: false },
 ];
 
